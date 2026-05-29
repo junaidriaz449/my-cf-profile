@@ -1,316 +1,956 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Junaid Riaz | System Architect</title>
-    <style>
-        :root {
-            --bg-color: #1e1e1e;
-            --text-color: #d4d4d4;
-            --keyword: #569cd6; /* Blue for keywords */
-            --string: #ce9178; /* Orange for strings */
-            --comment: #6a9955; /* Green for comments */
-            --function: #dcdcaa; /* Yellow for functions */
-            --class: #4ec9b0; /* Teal for types */
-            --number: #b5cea8; /* Light green for numbers */
-            --link: #9cdcfe; /* Light blue for links */
-            --border: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Junaid Riaz — Staff Engineer</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=cabinet-grotesk@400,500,700,800&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ── */
+:root {
+  --navy:   #07091a;
+  --navy2:  #0d1225;
+  --navy3:  #131830;
+  --navy4:  #1a2040;
+  --border: rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.13);
+  --white:  #ffffff;
+  --w2:     #e2e8f0;
+  --w3:     #94a3b8;
+  --w4:     #64748b;
+  --blue:   #4f8ef7;
+  --blue2:  #3b82f6;
+  --blue3:  #1d4ed8;
+  --teal:   #2dd4bf;
+  --gold:   #f59e0b;
+  --gold2:  #fbbf24;
+  --pink:   #f472b6;
+  --green:  #4ade80;
+  --nav-h:  64px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--navy);color:var(--w2);font-family:'Cabinet Grotesk',system-ui,sans-serif;line-height:1.6;overflow-x:hidden;}
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
+/* ── SCROLL PROGRESS BAR ── */
+#progress-bar{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  background:linear-gradient(90deg,var(--blue2),var(--teal),var(--gold));
+  z-index:10000;transition:width 0.1s linear;
+  box-shadow:0 0 8px rgba(79,142,247,0.6);
+}
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+/* ── MESH BG ── */
+.mesh-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.mesh-bg .g1{position:absolute;width:900px;height:900px;top:-300px;left:-200px;background:radial-gradient(ellipse,rgba(79,142,247,0.11) 0%,transparent 65%);}
+.mesh-bg .g2{position:absolute;width:700px;height:700px;bottom:-200px;right:-100px;background:radial-gradient(ellipse,rgba(45,212,191,0.08) 0%,transparent 65%);}
+.mesh-bg .g3{position:absolute;width:500px;height:500px;top:40%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(244,114,182,0.04) 0%,transparent 65%);}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;}
 
-        /* Terminal Header */
-        header {
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 20px;
-            margin-bottom: 40px;
-        }
+/* ── STICKY NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:9000;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;
+  transition:background 0.3s,border-color 0.3s,backdrop-filter 0.3s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(7,9,26,0.82);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border-bottom-color:var(--border);
+}
+.nav-logo{font-family:'Clash Display',sans-serif;font-size:1.05rem;font-weight:700;color:var(--white);letter-spacing:-0.02em;text-decoration:none;}
+.nav-logo span{color:var(--blue);}
+.nav-center{display:flex;gap:6px;list-style:none;}
+.nav-center a{
+  color:var(--w3);text-decoration:none;font-size:0.83rem;font-weight:600;
+  letter-spacing:0.01em;padding:6px 14px;border-radius:8px;
+  transition:color 0.2s,background 0.2s;
+}
+.nav-center a:hover{color:var(--white);background:rgba(255,255,255,0.06);}
+.nav-center a.active{color:var(--blue);background:rgba(79,142,247,0.1);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(45,212,247,0.08);
+  border:1px solid rgba(45,212,191,0.22);
+  border-radius:100px;padding:5px 14px;
+  font-size:0.75rem;color:var(--teal);font-weight:700;
+  cursor:pointer;transition:background 0.2s;user-select:none;
+}
+.nav-badge:hover{background:rgba(45,212,191,0.14);}
+.nav-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:pulse 2.5s ease-in-out infinite;}
+.nav-badge.unavailable{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.22);color:#f87171;}
+.nav-badge.unavailable .dot{background:#f87171;box-shadow:0 0 8px #f87171;animation:none;}
+.nav-badge span{transition:opacity 0.2s;}
 
-        h1 {
-            color: var(--function);
-            margin: 0;
-            font-size: 2.5rem;
-        }
-        
-        h1::after {
-            content: '_';
-            animation: blink 1s infinite;
-        }
+/* Hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:none;background:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--w2);border-radius:2px;transition:transform 0.3s,opacity 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
+/* Mobile drawer */
+.mobile-nav{
+  display:none;position:fixed;top:var(--nav-h);left:0;right:0;
+  background:rgba(7,9,26,0.96);backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);z-index:8999;
+  padding:20px 24px;flex-direction:column;gap:4px;
+  transform:translateY(-20px);opacity:0;
+  transition:transform 0.3s,opacity 0.3s;
+  pointer-events:none;
+}
+.mobile-nav.open{transform:translateY(0);opacity:1;pointer-events:all;}
+.mobile-nav a{color:var(--w3);text-decoration:none;font-size:1rem;font-weight:600;padding:12px 0;border-bottom:1px solid var(--border);display:block;transition:color 0.2s;}
+.mobile-nav a:last-child{border-bottom:none;}
+.mobile-nav a.active{color:var(--blue);}
 
-        .subtitle {
-            color: var(--class);
-            font-size: 1.2rem;
-            margin-top: 10px;
-            display: block;
-        }
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.6;transform:scale(0.85);}}
 
-        .contact-info {
-            margin-top: 15px;
-            font-size: 0.9rem;
-        }
+/* ── PAGE ── */
+.page{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 32px 100px;}
 
-        a {
-            color: var(--link);
-            text-decoration: none;
-            border-bottom: 1px dotted var(--link);
-        }
+/* ── HERO ── */
+.hero{
+  display:grid;grid-template-columns:1fr 360px;
+  gap:40px;align-items:center;
+  min-height:100vh;padding-top:var(--nav-h);
+}
+.hero-left{padding-top:40px;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);
+  border-radius:100px;padding:5px 14px;
+  font-size:0.72rem;font-weight:700;color:var(--blue);
+  letter-spacing:0.08em;text-transform:uppercase;margin-bottom:24px;
+}
+h1{
+  font-family:'Clash Display',sans-serif;
+  font-size:clamp(3.2rem,6.5vw,5.8rem);
+  font-weight:700;color:var(--white);
+  line-height:0.93;letter-spacing:-0.04em;margin-bottom:12px;
+}
+h1 .name-line{display:block;}
+h1 .accent{color:var(--blue);}
+.hero-tagline{
+  font-family:'Clash Display',sans-serif;
+  font-size:1.1rem;font-weight:500;
+  color:var(--w3);letter-spacing:-0.01em;
+  margin-bottom:20px;line-height:1.4;
+}
+.hero-tagline em{color:var(--teal);font-style:normal;}
+.hero-desc{font-size:1rem;color:var(--w3);line-height:1.72;max-width:500px;margin-bottom:32px;}
+.hero-desc strong{color:var(--w2);font-weight:700;}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--blue2);color:white;
+  padding:12px 24px;border-radius:10px;
+  font-weight:700;font-size:0.88rem;text-decoration:none;
+  transition:background 0.2s,transform 0.15s,box-shadow 0.2s;
+  box-shadow:0 4px 20px rgba(59,130,246,0.3);
+}
+.btn-primary:hover{background:#2563eb;transform:translateY(-2px);box-shadow:0 8px 30px rgba(59,130,246,0.45);}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--w2);
+  padding:12px 24px;border-radius:10px;
+  font-weight:600;font-size:0.88rem;text-decoration:none;
+  border:1px solid var(--border2);
+  transition:border-color 0.2s,color 0.2s,transform 0.15s,background 0.2s;
+}
+.btn-secondary:hover{border-color:rgba(255,255,255,0.28);color:var(--white);transform:translateY(-2px);background:rgba(255,255,255,0.04);}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--w3);
+  padding:12px 24px;border-radius:10px;
+  font-weight:600;font-size:0.88rem;text-decoration:none;
+  border:1px solid var(--border);
+  transition:border-color 0.2s,color 0.2s,transform 0.15s;
+}
+.btn-ghost:hover{border-color:var(--border2);color:var(--w2);transform:translateY(-2px);}
 
-        a:hover {
-            border-bottom: 1px solid var(--link);
-        }
+/* ── HERO RIGHT ── */
+.hero-right{position:relative;padding-top:40px;}
+.hero-geo{
+  position:absolute;top:-40px;right:-60px;
+  width:340px;height:340px;
+  border-radius:50%;
+  background:radial-gradient(ellipse at 40% 40%,rgba(79,142,247,0.12),rgba(45,212,191,0.06) 50%,transparent 70%);
+  animation:geoRotate 20s linear infinite;
+  pointer-events:none;z-index:-1;
+}
+.hero-geo::before{
+  content:'';position:absolute;inset:20px;
+  border-radius:50%;border:1px solid rgba(79,142,247,0.12);
+  animation:geoRotate 15s linear infinite reverse;
+}
+.hero-geo::after{
+  content:'';position:absolute;inset:60px;
+  border-radius:50%;border:1px dashed rgba(45,212,191,0.1);
+}
+@keyframes geoRotate{to{transform:rotate(360deg);}}
 
-        /* Sections */
-        section {
-            margin-bottom: 50px;
-        }
+.contact-card{
+  background:var(--navy2);
+  border:1px solid var(--border);
+  border-radius:20px;padding:28px;
+  position:relative;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+.contact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue2),var(--teal));}
+.contact-card-title{font-family:'Clash Display',sans-serif;font-size:0.68rem;font-weight:600;color:var(--w3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px;}
+.contact-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.contact-item:last-child{border-bottom:none;}
+.c-icon{width:34px;height:34px;border-radius:8px;background:rgba(79,142,247,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.c-icon svg{width:15px;height:15px;stroke:var(--blue);fill:none;stroke-width:2;}
+.c-label{font-size:0.7rem;color:var(--w3);font-weight:500;line-height:1;}
+.c-val{font-size:0.83rem;color:var(--w2);font-weight:600;text-decoration:none;transition:color 0.2s;margin-top:2px;display:block;}
+.c-val:hover{color:var(--blue);}
 
-        h2 {
-            color: var(--keyword);
-            font-size: 1.5rem;
-            border-bottom: 1px dashed var(--border);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+/* ── STATS ── */
+.stats-strip{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;margin-bottom:80px;
+}
+.stat{background:var(--navy2);padding:22px 14px;text-align:center;transition:background 0.2s;cursor:default;}
+.stat:hover{background:var(--navy3);}
+.stat-value{font-family:'Clash Display',sans-serif;font-size:2rem;font-weight:700;letter-spacing:-0.03em;line-height:1;display:block;}
+.sv-blue{color:var(--blue);}.sv-teal{color:var(--teal);}.sv-gold{color:var(--gold2);}
+.stat-label{font-size:0.68rem;color:var(--w3);margin-top:6px;line-height:1.3;font-weight:500;}
 
-        h2::before {
-            content: "./";
-            opacity: 0.5;
-            margin-right: 5px;
-        }
+/* ── SECTION LABEL ── */
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:36px;}
+.sec-label-text{font-family:'Clash Display',sans-serif;font-size:0.68rem;font-weight:700;color:var(--w3);letter-spacing:0.14em;text-transform:uppercase;}
+.sec-label-line{flex:1;height:1px;background:var(--border);}
+.sec-label-num{font-size:0.68rem;color:var(--w4);font-family:'Clash Display',sans-serif;font-weight:600;}
+.section{margin-bottom:96px;}
+h2{font-family:'Clash Display',sans-serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:700;color:var(--white);letter-spacing:-0.03em;line-height:1.1;margin-bottom:14px;}
+h2 .hl{color:var(--blue);}
+.sec-intro{font-size:1rem;color:var(--w3);max-width:580px;margin-bottom:44px;line-height:1.72;}
 
-        /* Code Block Styling for Resume Content */
-        .code-block {
-            background: #252526;
-            padding: 20px;
-            border-left: 3px solid var(--keyword);
-            border-radius: 0 5px 5px 0;
-            margin-bottom: 20px;
-        }
+/* ── ABOUT CARDS ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.about-card{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:26px;transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;}
+.about-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.3);}
+.ac-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.ac-icon svg{width:20px;height:20px;fill:none;stroke-width:1.8;}
+.ib{background:rgba(79,142,247,0.12);}.ib svg{stroke:var(--blue);}
+.it{background:rgba(45,212,191,0.12);}.it svg{stroke:var(--teal);}
+.ig{background:rgba(245,158,11,0.12);}.ig svg{stroke:var(--gold);}
+.ip{background:rgba(244,114,182,0.12);}.ip svg{stroke:var(--pink);}
+.ac-title{font-family:'Clash Display',sans-serif;font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:8px;}
+.ac-text{font-size:0.85rem;color:var(--w3);line-height:1.65;}
 
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-        }
+/* ── OPEN SOURCE CALLOUT ── */
+.oss-callout{
+  margin-top:20px;
+  background:linear-gradient(135deg,rgba(79,142,247,0.08),rgba(45,212,191,0.06));
+  border:1px solid rgba(79,142,247,0.2);
+  border-radius:16px;padding:26px 28px;
+  display:flex;align-items:center;gap:20px;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.oss-callout:hover{border-color:rgba(79,142,247,0.35);transform:translateY(-2px);}
+.oss-icon{
+  width:52px;height:52px;border-radius:12px;
+  background:rgba(79,142,247,0.12);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.oss-icon svg{width:24px;height:24px;fill:none;stroke:var(--blue);stroke-width:1.8;}
+.oss-label{font-size:0.7rem;font-weight:700;color:var(--blue);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.oss-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:var(--white);}
+.oss-desc{font-size:0.83rem;color:var(--w3);margin-top:4px;line-height:1.5;}
+.oss-link{
+  margin-left:auto;display:inline-flex;align-items:center;gap:6px;
+  background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);
+  color:var(--blue);border-radius:8px;padding:8px 16px;
+  font-size:0.8rem;font-weight:700;text-decoration:none;white-space:nowrap;
+  transition:background 0.2s;
+}
+.oss-link:hover{background:rgba(79,142,247,0.18);}
+.oss-link svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;}
 
-        .job-title {
-            color: var(--function);
-            font-weight: bold;
-        }
+/* ── SKILLS ── */
+.skills-rows{display:flex;flex-direction:column;gap:0;}
+.skill-row{
+  display:grid;grid-template-columns:160px 1fr;
+  gap:20px;align-items:start;
+  padding:22px 0;border-bottom:1px solid var(--border);
+}
+.skill-row:last-child{border-bottom:none;}
+.sr-label{font-family:'Clash Display',sans-serif;font-size:0.72rem;font-weight:700;color:var(--w3);letter-spacing:0.06em;text-transform:uppercase;padding-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 13px;border-radius:100px;
+  font-size:0.78rem;font-weight:600;border:1px solid;
+  transition:transform 0.15s,box-shadow 0.2s;cursor:default;
+  position:relative;
+}
+.pill:hover{transform:translateY(-1px);}
+.pill-blue{background:rgba(79,142,247,0.08);border-color:rgba(79,142,247,0.2);color:#93bbfd;}
+.pill-blue:hover{box-shadow:0 4px 16px rgba(79,142,247,0.18);}
+.pill-teal{background:rgba(45,212,191,0.08);border-color:rgba(45,212,191,0.2);color:#6ee7df;}
+.pill-teal:hover{box-shadow:0 4px 16px rgba(45,212,191,0.14);}
+.pill-gold{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.2);color:#fcd34d;}
+.pill-gold:hover{box-shadow:0 4px 16px rgba(245,158,11,0.14);}
+.pill-pink{background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.2);color:#f9a8d4;}
+.pill-pink:hover{box-shadow:0 4px 16px rgba(244,114,182,0.14);}
+.pill-white{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.09);color:var(--w3);}
+/* Core pill — larger + brighter */
+.pill.core{font-size:0.84rem;padding:7px 16px;border-width:1.5px;}
+.pill.core.pill-blue{background:rgba(79,142,247,0.14);border-color:rgba(79,142,247,0.35);color:#b8d0fe;}
+.pill.core.pill-teal{background:rgba(45,212,191,0.14);border-color:rgba(45,212,191,0.35);color:#99f0e8;}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:0.55;flex-shrink:0;}
+/* Proficiency bar tooltip */
+.pill[data-years]::after{
+  content:attr(data-years);
+  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:var(--navy4);border:1px solid var(--border2);
+  color:var(--w2);font-size:0.68rem;font-weight:600;
+  padding:3px 8px;border-radius:6px;white-space:nowrap;
+  opacity:0;transition:opacity 0.2s;pointer-events:none;
+}
+.pill[data-years]:hover::after{opacity:1;}
 
-        .job-company {
-            color: var(--string);
-        }
+/* ── TECH TIMELINE ── */
+.tech-timeline{margin-top:44px;}
+.tt-title{font-family:'Clash Display',sans-serif;font-size:0.68rem;font-weight:700;color:var(--w3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px;}
+.tt-grid{display:flex;flex-direction:column;gap:10px;}
+.tt-row{display:grid;grid-template-columns:80px 1fr 36px;gap:10px;align-items:center;}
+.tt-lang{font-size:0.8rem;font-weight:700;color:var(--w2);}
+.tt-bar-bg{background:rgba(255,255,255,0.05);border-radius:100px;height:8px;overflow:hidden;}
+.tt-bar{height:100%;border-radius:100px;transition:width 1.4s cubic-bezier(0.22,1,0.36,1);}
+.tt-years{font-size:0.75rem;font-weight:700;color:var(--w3);text-align:right;}
+.bar-blue{background:linear-gradient(90deg,var(--blue3),var(--blue));}
+.bar-teal{background:linear-gradient(90deg,#0d9488,var(--teal));}
+.bar-white{background:linear-gradient(90deg,#334155,#94a3b8);}
+.bar-gold{background:linear-gradient(90deg,#b45309,var(--gold2));}
 
-        .job-date {
-            color: var(--comment);
-        }
+/* ── EXPERIENCE TIMELINE ── */
+.exp-timeline{position:relative;padding-left:32px;}
+.exp-timeline::before{content:'';position:absolute;left:0;top:14px;bottom:0;width:1px;background:linear-gradient(180deg,var(--blue2),transparent);}
+.exp-entry{position:relative;margin-bottom:44px;}
+.exp-entry::before{
+  content:'';position:absolute;left:-38px;top:14px;
+  width:13px;height:13px;border-radius:50%;
+  background:var(--navy);border:2px solid var(--blue2);
+  box-shadow:0 0 12px rgba(59,130,246,0.4);
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.exp-entry:hover::before{border-color:var(--teal);box-shadow:0 0 16px rgba(45,212,191,0.45);}
+.exp-card{
+  background:var(--navy2);border:1px solid var(--border);
+  border-radius:16px;padding:26px 28px 22px;
+  transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;
+}
+.exp-card:hover{border-color:var(--border2);transform:translateX(4px);box-shadow:0 8px 32px rgba(0,0,0,0.25);}
+.exp-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:4px;flex-wrap:wrap;}
+.exp-title{font-family:'Clash Display',sans-serif;font-size:1.05rem;font-weight:700;color:var(--white);letter-spacing:-0.02em;}
+.exp-period{font-size:0.75rem;color:var(--blue);background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);border-radius:100px;padding:3px 12px;font-weight:600;white-space:nowrap;}
+.exp-company{font-size:0.85rem;color:var(--w3);font-weight:600;margin-bottom:16px;}
+.exp-company span{color:var(--gold2);}
+.exp-bullets{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px;}
+.exp-bullets li{font-size:0.855rem;color:var(--w3);line-height:1.62;padding-left:16px;position:relative;}
+.exp-bullets li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--blue2);}
+.exp-bullets li strong{color:var(--w2);font-weight:700;}
+.exp-bullets .num{color:var(--blue);font-weight:700;}
+.exp-bullets .tl{color:var(--teal);font-weight:600;}
+.exp-bullets .gd{color:var(--gold2);font-weight:600;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+.exp-tag{font-size:0.7rem;font-weight:600;color:var(--w3);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:3px 9px;}
 
-        ul {
-            list-style-type: none; /* Remove default bullets */
-            padding-left: 0;
-        }
+/* ── EDU & AWARDS ── */
+.ea-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.ea-card{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:26px;}
+.ea-head{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.ea-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.ea-icon svg{width:18px;height:18px;fill:none;stroke-width:1.8;}
+.ea-title{font-family:'Clash Display',sans-serif;font-size:0.95rem;font-weight:700;color:var(--white);}
+.edu-entry{padding:13px 0;border-bottom:1px solid var(--border);}
+.edu-entry:last-child{border-bottom:none;padding-bottom:0;}
+.edu-deg{font-size:0.88rem;font-weight:700;color:var(--w2);margin-bottom:3px;}
+.edu-inst{font-size:0.78rem;color:var(--w3);}
+.edu-year{display:inline-block;margin-top:6px;font-size:0.7rem;color:var(--blue);background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.2);border-radius:100px;padding:2px 10px;font-weight:600;}
+.award-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);}
+.award-row:last-child{border-bottom:none;padding-bottom:0;}
+.aw-icon{width:32px;height:32px;border-radius:8px;background:rgba(245,158,11,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.aw-icon svg{width:15px;height:15px;fill:none;stroke:var(--gold);stroke-width:1.8;}
+.aw-name{font-size:0.85rem;font-weight:700;color:var(--w2);}
+.aw-year{margin-left:auto;font-family:'Clash Display',sans-serif;font-size:0.88rem;font-weight:700;color:var(--gold2);}
 
-        li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 8px;
-        }
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);padding-top:40px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-logo{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:700;color:var(--white);}
+.footer-logo span{color:var(--blue);}
+.footer-copy{font-size:0.78rem;color:var(--w3);}
+.footer-links{display:flex;gap:18px;}
+.footer-links a{font-size:0.78rem;color:var(--w3);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--white);}
 
-        li::before {
-            content: ">";
-            position: absolute;
-            left: 0;
-            color: var(--keyword);
-        }
+/* ── REVEAL ANIMATION ── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
 
-        /* Skills Tag Cloud */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .skill-category {
-            margin-bottom: 10px;
-        }
-
-        .skill-name {
-            color: var(--class);
-            font-weight: bold;
-        }
-
-        .comment-text {
-            color: var(--comment);
-            font-style: italic;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .job-header { flex-direction: column; }
-        }
-    </style>
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:calc(var(--nav-h) + 40px);}
+  .hero-right{display:none;}
+  .stats-strip{grid-template-columns:repeat(3,1fr);}
+  .about-grid{grid-template-columns:1fr;}
+  .ea-grid{grid-template-columns:1fr;}
+  .skill-row{grid-template-columns:1fr;gap:10px;}
+}
+@media(max-width:768px){
+  .nav-center{display:none;}
+  .hamburger{display:flex;}
+  .mobile-nav{display:flex;}
+  nav{padding:0 20px;}
+  .page{padding:0 20px 60px;}
+}
+@media(max-width:480px){
+  .stats-strip{grid-template-columns:repeat(2,1fr);}
+  .cta-row{flex-direction:column;}
+  .oss-callout{flex-direction:column;align-items:flex-start;}
+  .oss-link{margin-left:0;}
+}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>Junaid Riaz</h1>
-        <span class="subtitle">Senior System Software Engineer | Telecom Architect</span>
-        <div class="contact-info">
-            <span class="comment-text">// Contact Info</span><br>
-            <span style="color: var(--keyword);">const</span> location = <span style="color: var(--string);">"Islamabad, Pakistan"</span>;<br>
-            <span style="color: var(--keyword);">const</span> email = "<a href="mailto:junaidriaz449@yahoo.com">junaidriaz449@yahoo.com</a>";<br>
-            <span style="color: var(--keyword);">const</span> linkedin = "<a href="https://linkedin.com/in/junaidriaz" target="_blank">linkedin.com/in/junaidriaz</a>";
-        </div>
-    </header>
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
 
-    <section id="summary">
-        <h2>Summary</h2>
-        <div class="code-block">
-            <p>
-                <span class="comment-text">/**<br>
-                * High-Performance Systems Expert with 12 years of experience.<br>
-                * Specializing in C/Golang and low-level optimization.<br>
-                * Proven track record of reducing infrastructure costs (98% memory reduction).<br>
-                */</span>
-            </p>
-        </div>
-    </section>
-
-    <section id="skills">
-        <h2>Tech_Stack</h2>
-        <div class="skills-grid">
-            <div>
-                <div class="skill-name">Languages</div>
-                <ul>
-                    <li>C (12+ Years)</li>
-                    <li>Golang (4+ Years)</li>
-                    <li>Bash / Python / C++</li>
-                </ul>
-            </div>
-            <div>
-                <div class="skill-name">Core_Telecom</div>
-                <ul>
-                    <li>3GPP (OCS, PCRF, HSS)</li>
-                    <li>Diameter / SIP / SIGTRAN</li>
-                    <li>Open5Gs / Free5GC</li>
-                </ul>
-            </div>
-            <div>
-                <div class="skill-name">Infrastructure</div>
-                <ul>
-                    <li>Docker / Kubernetes</li>
-                    <li>Redis / Oracle / MySQL</li>
-                    <li>Linux Kernel / LibUV</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience">
-        <h2>Experience_Log</h2>
-
-        <div class="code-block">
-            <div class="job-header">
-                <span class="job-title">Software Architect & Principal Engineer</span>
-                <span class="job-company">Safarifone Pvt. Ltd</span>
-                <span class="job-date">// Mar 2022 - Present</span>
-            </div>
-            <ul>
-                <li>Led migration of monoliths to Dockerized Golang microservices serving <span style="color: var(--number);">5M+</span> subscribers[cite: 5].</li>
-                <li>Designed PCRF and VAS SDP using Golang, gRPC, and Goroutines[cite: 15, 16].</li>
-                <li>Developed NGP platform on top of LibUV, achieving <span style="color: var(--number);">4x</span> performance boost[cite: 20].</li>
-                <li>Architected Revenue Assurance System and managed OCS deployment for 6+ operators[cite: 22].</li>
-            </ul>
-        </div>
-
-        <div class="code-block">
-            <div class="job-header">
-                <span class="job-title">Product Manager (Telecom)</span>
-                <span class="job-company">Safarifone Pvt. Ltd</span>
-                <span class="job-date">// Mar 2022 - Present</span>
-            </div>
-            <ul>
-                <li>Bridge between Clients, Ops, and R&D; translating RFPs into technical specs[cite: 8].</li>
-                <li>Manage full SDLC for BSS/OSS products and cross-functional team alignment[cite: 9, 11].</li>
-                <li>Established formal release SOPs (Dev -> Staging -> Canary -> Prod)[cite: 14].</li>
-            </ul>
-        </div>
-
-        <div class="code-block">
-            <div class="job-header">
-                <span class="job-title">Sr. Software Engineer & Team Lead</span>
-                <span class="job-company">Safarifone Pvt. Ltd</span>
-                <span class="job-date">// Mar 2017 - Mar 2022</span>
-            </div>
-            <ul>
-                <li>Architected 3GPP OCS/AAA from scratch in C using async LibUV[cite: 28].</li>
-                <li><span style="color: var(--keyword);">Optimization:</span> Re-engineered Oracle connector to slash memory from <span style="color: var(--number);">22GB</span> to <span style="color: var(--number);">300MB</span>[cite: 3, 31].</li>
-                <li>Integrated Google TCMalloc reducing CPU usage by <span style="color: var(--number);">40%</span>[cite: 3, 32].</li>
-                <li>Mentored team of 3 engineers and managed sprint planning[cite: 35].</li>
-            </ul>
-        </div>
-
-        <div class="code-block">
-            <div class="job-header">
-                <span class="job-title">Software Engineer</span>
-                <span class="job-company">Safarifone Pvt. Ltd</span>
-                <span class="job-date">// Feb 2014 - Mar 2017</span>
-            </div>
-            <ul>
-                <li>Developed MFS (Mobile Financial Services) core handling <span style="color: var(--number);">10M+</span> daily transactions[cite: 41].</li>
-                <li>Implemented 600+ money transfer flows and robust authentication (2FA)[cite: 39].</li>
-            </ul>
-        </div>
-
-        <div class="code-block">
-            <div class="job-header">
-                <span class="job-title">C/C++ & MIPS Assembly Developer</span>
-                <span class="job-company">XFlow Research Center</span>
-                <span class="job-date">// Feb 2013 - Feb 2014</span>
-            </div>
-            <ul>
-                <li>Ported Valgrind (DBI framework) from x86 to Cavium MIPS-based Linux (Octeon SDK)[cite: 43].</li>
-                <li>Implemented assembly instructions and syscalls for N64 ABI[cite: 44].</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="education">
-        <h2>Education_&_Awards</h2>
-        <ul>
-            <li><span style="color: var(--function);">MS Computer Science</span> @ NUST, Islamabad [cite: 7]</li>
-            <li><span style="color: var(--function);">MS Information Technology</span> @ IUB, Bahawalpur [cite: 7]</li>
-            <li style="margin-top: 15px;">🏆 <strong>Top Performer Award</strong> (2025) [cite: 6]</li>
-            <li>🏆 <strong>Employee of the Year</strong> (2019, 2024) [cite: 6]</li>
-        </ul>
-    </section>
-
-    <footer style="text-align: center; margin-top: 50px; font-size: 0.8rem; color: #666;">
-        <p>git push --force origin master</p>
-    </footer>
+<!-- MESH -->
+<div class="mesh-bg">
+  <div class="g1"></div>
+  <div class="g2"></div>
+  <div class="g3"></div>
 </div>
 
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">0<span>overhead</span>.dev</a>
+  <ul class="nav-center">
+    <li><a href="#about" data-section="about">About</a></li>
+    <li><a href="#skills" data-section="skills">Skills</a></li>
+    <li><a href="#experience" data-section="experience">Experience</a></li>
+    <li><a href="#education" data-section="education">Education</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-badge" id="avail-badge" title="Click to toggle">
+      <span class="dot"></span>
+      <span id="avail-text">Available for Opportunities</span>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV DRAWER -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#about">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#experience">Experience</a>
+  <a href="#education">Education</a>
+</div>
+
+<div class="page">
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="hero">
+    <div class="hero-left reveal">
+      <div class="eyebrow">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Staff Engineer · 12 Years · Islamabad
+      </div>
+      <h1>
+        <span class="name-line">Junaid</span>
+        <span class="name-line">Riaz<span class="accent">.</span></span>
+      </h1>
+      <p class="hero-tagline">I make telecom systems <em>fast, reliable, and boring.</em></p>
+      <p class="hero-desc">
+        Systems architect building <strong>carrier-grade telecom infrastructure</strong> —
+        from bare-metal C to cloud-native Go microservices.
+        Platforms serving <strong>5M+ active subscribers</strong> across 6+ international operators.
+        Known for <strong>extreme performance engineering</strong>: 98% memory reduction, 40% CPU cut.
+      </p>
+      <div class="cta-row">
+        <a href="mailto:junaidriaz449@yahoo.com" class="btn-primary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Get in Touch
+        </a>
+        <a href="https://linkedin.com/in/junaidriaz" target="_blank" class="btn-secondary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/junaidriaz449" target="_blank" class="btn-ghost">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+    <div class="hero-right reveal reveal-delay-2">
+      <div class="hero-geo"></div>
+      <div class="contact-card">
+        <div class="contact-card-title">Contact Information</div>
+        <div class="contact-item">
+          <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><div class="c-label">Location</div><div class="c-val">Islamabad, Pakistan</div></div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.8 19.79 19.79 0 01.22 2.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.16 6.16l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div><div class="c-label">Phone</div><a href="tel:+923357077449" class="c-val">+92-335-7077449</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div><div class="c-label">Email</div><a href="mailto:junaidriaz449@yahoo.com" class="c-val">junaidriaz449@yahoo.com</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+          <div><div class="c-label">LinkedIn</div><a href="https://linkedin.com/in/junaidriaz" target="_blank" class="c-val">linkedin.com/in/junaidriaz</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></div>
+          <div><div class="c-label">GitHub</div><a href="https://github.com/junaidriaz449" target="_blank" class="c-val">github.com/junaidriaz449</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip reveal">
+    <div class="stat"><span class="stat-value sv-blue" data-target="12" data-suffix="Y">0Y</span><div class="stat-label">Years Engineering</div></div>
+    <div class="stat"><span class="stat-value sv-teal" data-target="98" data-suffix="%">0%</span><div class="stat-label">Memory Reduction</div></div>
+    <div class="stat"><span class="stat-value sv-gold" data-target="40" data-suffix="%">0%</span><div class="stat-label">CPU Usage Cut</div></div>
+    <div class="stat"><span class="stat-value sv-blue">5M+</span><div class="stat-label">Active Subscribers</div></div>
+    <div class="stat"><span class="stat-value sv-teal" data-target="6" data-suffix="+">0+</span><div class="stat-label">Int'l Operators</div></div>
+    <div class="stat"><span class="stat-value sv-gold">4×</span><div class="stat-label">Perf Boost (NGP)</div></div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="section reveal" id="about">
+    <div class="sec-label"><span class="sec-label-text">About</span><div class="sec-label-line"></div><span class="sec-label-num">01</span></div>
+    <h2>Building systems that <span class="hl">never fail.</span></h2>
+    <p class="sec-intro">Twelve years of carrier-grade engineering across OCS, PCRF, AAA, and MFS platforms — writing the C that routes calls, charges subscribers, and authenticates millions of connections every single day.</p>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="ac-icon ib"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <div class="ac-title">Performance Engineering</div>
+        <div class="ac-text">Re-engineered Oracle connector via ODPI-C + LibUV, cutting memory from 22 GB to 300 MB. Integrated TCMalloc for 40% CPU reduction. Optimized C hash tables for 30% throughput gain in production.</div>
+      </div>
+      <div class="about-card">
+        <div class="ac-icon it"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <div class="ac-title">Telecom Architecture</div>
+        <div class="ac-text">Architect of NGP — next-gen async C platform on LibUV delivering 4× perf improvement. Designed PCRF and VAS SDP in Go microservices with 3GPP Gx, Sy, Rx interfaces and full 5G Core SA compatibility.</div>
+      </div>
+      <div class="about-card">
+        <div class="ac-icon ig"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div>
+        <div class="ac-title">Global Deployment</div>
+        <div class="ac-text">End-to-end OCS deployment across 6+ international operators serving 5M+ subscribers. On-site integration in Dubai and Djibouti. Built testbeds with real SIMs and RF modules before every production rollout.</div>
+      </div>
+      <div class="about-card">
+        <div class="ac-icon ip"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="ac-title">Reliability Engineering</div>
+        <div class="ac-text">CI pipelines and test suites (Seagull, JMeter, k6) enforcing 99.999% availability SLAs. Formal Dev→Staging→UAT→Canary→Production release SOPs adopted across all product lines.</div>
+      </div>
+    </div>
+
+    <!-- Open Source Callout -->
+    <div class="oss-callout reveal reveal-delay-1">
+      <div class="oss-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M3.6 9h16.8M3.6 15h16.8"/></svg>
+      </div>
+      <div>
+        <div class="oss-label">Open Source Contribution</div>
+        <div class="oss-title">Valgrind — x86 → MIPS Port</div>
+        <div class="oss-desc">Ported the Valgrind DBI framework from x86 to Cavium MIPS-based Linux (Octeon SDK, N64 ABI). Implemented architecture-specific assembly instructions, system calls, TLS register support, and signal handling. <strong style="color:var(--w2);">Contributions accepted upstream.</strong></div>
+      </div>
+      <a href="https://valgrind.org" target="_blank" class="oss-link">
+        valgrind.org
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section reveal" id="skills">
+    <div class="sec-label"><span class="sec-label-text">Skills</span><div class="sec-label-line"></div><span class="sec-label-num">02</span></div>
+    <h2>Full-stack of <span class="hl">systems expertise.</span></h2>
+    <p class="sec-intro">From MIPS assembly to Kubernetes orchestration. Larger pills = core skills. Hover any pill to see years of experience.</p>
+    <div class="skills-rows">
+      <div class="skill-row">
+        <div class="sr-label">Languages</div>
+        <div class="pills">
+          <span class="pill pill-blue core" data-years="12 years">C</span>
+          <span class="pill pill-blue core" data-years="4 years">Go</span>
+          <span class="pill pill-white" data-years="10+ years">Bash</span>
+          <span class="pill pill-white" data-years="5 years">Python</span>
+          <span class="pill pill-white" data-years="8 years">C++</span>
+          <span class="pill pill-white" data-years="3 years">Node.js</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="sr-label">Telecom Protocols</div>
+        <div class="pills">
+          <span class="pill pill-teal core" data-years="10 years">3GPP OCS</span>
+          <span class="pill pill-teal core" data-years="5 years">PCRF</span>
+          <span class="pill pill-teal" data-years="6 years">HSS/HLR/UDM</span>
+          <span class="pill pill-teal core" data-years="10 years">Diameter</span>
+          <span class="pill pill-teal" data-years="7 years">SIP</span>
+          <span class="pill pill-teal" data-years="8 years">RADIUS</span>
+          <span class="pill pill-teal" data-years="2 years">NCHF (5G SA)</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="sr-label">Telecom Platforms</div>
+        <div class="pills">
+          <span class="pill pill-pink" data-years="4 years">Open5Gs</span>
+          <span class="pill pill-pink" data-years="3 years">Free5GC</span>
+          <span class="pill pill-pink" data-years="5 years">OpenSIPS</span>
+          <span class="pill pill-pink" data-years="3 years">srsEPC</span>
+          <span class="pill pill-pink" data-years="6 years">Huawei MSC/UGW</span>
+          <span class="pill pill-pink" data-years="4 years">IPLook PGW/PCRF</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="sr-label">Systems & Perf</div>
+        <div class="pills">
+          <span class="pill pill-gold core" data-years="10 years">LibUV Async</span>
+          <span class="pill pill-gold core" data-years="8 years">TCMalloc</span>
+          <span class="pill pill-gold" data-years="6 years">JEMalloc</span>
+          <span class="pill pill-gold core" data-years="12 years">Multithreading</span>
+          <span class="pill pill-gold" data-years="10 years">Oracle TimesTen</span>
+          <span class="pill pill-gold" data-years="8 years">Redis</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="sr-label">Debug & Profiling</div>
+        <div class="pills">
+          <span class="pill pill-blue core" data-years="10 years">Valgrind</span>
+          <span class="pill pill-blue core" data-years="12 years">GDB</span>
+          <span class="pill pill-blue" data-years="8 years">Cachegrind</span>
+          <span class="pill pill-blue" data-years="6 years">Intel VTune</span>
+          <span class="pill pill-blue" data-years="8 years">Perf Tools</span>
+          <span class="pill pill-blue" data-years="4 years">pprof</span>
+          <span class="pill pill-blue" data-years="3 years">ELK / APM</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="sr-label">DevOps & CI/CD</div>
+        <div class="pills">
+          <span class="pill pill-teal core" data-years="5 years">Docker</span>
+          <span class="pill pill-teal core" data-years="3 years">Kubernetes (CKAD)</span>
+          <span class="pill pill-teal" data-years="5 years">Jenkins</span>
+          <span class="pill pill-teal" data-years="4 years">GitLab CI</span>
+          <span class="pill pill-teal" data-years="6 years">JMeter</span>
+          <span class="pill pill-teal" data-years="3 years">k6</span>
+          <span class="pill pill-teal" data-years="8 years">Seagull</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Timeline -->
+    <div class="tech-timeline reveal reveal-delay-1">
+      <div class="tt-title">Language Experience Timeline</div>
+      <div class="tt-grid">
+        <div class="tt-row">
+          <div class="tt-lang">C</div>
+          <div class="tt-bar-bg"><div class="tt-bar bar-blue" data-width="100" style="width:0%"></div></div>
+          <div class="tt-years">12y</div>
+        </div>
+        <div class="tt-row">
+          <div class="tt-lang">C++</div>
+          <div class="tt-bar-bg"><div class="tt-bar bar-white" data-width="67" style="width:0%"></div></div>
+          <div class="tt-years">8y</div>
+        </div>
+        <div class="tt-row">
+          <div class="tt-lang">Bash</div>
+          <div class="tt-bar-bg"><div class="tt-bar bar-white" data-width="83" style="width:0%"></div></div>
+          <div class="tt-years">10y</div>
+        </div>
+        <div class="tt-row">
+          <div class="tt-lang">Python</div>
+          <div class="tt-bar-bg"><div class="tt-bar bar-gold" data-width="42" style="width:0%"></div></div>
+          <div class="tt-years">5y</div>
+        </div>
+        <div class="tt-row">
+          <div class="tt-lang">Go</div>
+          <div class="tt-bar-bg"><div class="tt-bar bar-teal" data-width="33" style="width:0%"></div></div>
+          <div class="tt-years">4y</div>
+        </div>
+        <div class="tt-row">
+          <div class="tt-lang">Node.js</div>
+          <div class="tt-bar-bg"><div class="tt-bar bar-white" data-width="25" style="width:0%"></div></div>
+          <div class="tt-years">3y</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section reveal" id="experience">
+    <div class="sec-label"><span class="sec-label-text">Experience</span><div class="sec-label-line"></div><span class="sec-label-num">03</span></div>
+    <h2>12 years of <span class="hl">shipping.</span></h2>
+    <p class="sec-intro">Every role built on the same obsession — systems that hold up at scale, under load, in production, at 3am.</p>
+    <div class="exp-timeline">
+
+      <div class="exp-entry">
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">Software Architect &amp; Principal Engineer</div>
+            <div class="exp-period">Mar 2022 — Present</div>
+          </div>
+          <div class="exp-company">Safarifone Pvt. Ltd &nbsp;·&nbsp; <span>Islamabad, Pakistan</span></div>
+          <ul class="exp-bullets">
+            <li>Architected <strong>NGP</strong> — next-gen async C platform on LibUV; delivered <span class="num">4×</span> performance improvement replacing legacy OCS/AAA/DRA stack.</li>
+            <li>Designed <span class="tl">PCRF</span> and VAS SDP in Go microservices; 3GPP <strong>Gx, Sy, Rx</strong> interfaces integrating with IPLook PGW, Open5Gs, and OpenSIPS.</li>
+            <li>Implemented <span class="tl">NCHF interface</span> enabling full <strong>5G Core (SA)</strong> compatibility.</li>
+            <li>Architected <strong>Revenue Assurance System (RAS)</strong> for real-time fraud detection and revenue leakage prevention.</li>
+            <li>Re-engineered Oracle connector: <span class="num">22 GB → 300 MB</span> (<span class="num">98%</span> reduction) · TCMalloc: <span class="num">40%</span> CPU cut · Hash table: <span class="num">30%</span> throughput gain.</li>
+            <li>End-to-end OCS deployment for <span class="num">6+</span> operators, <span class="num">5M+</span> subscribers; on-site integration in <span class="gd">Dubai</span> and <span class="gd">Djibouti</span>.</li>
+            <li>Led 4G/5G core integration: Huawei MSC/UGW, IPLook PGW/PCRF, Open5Gs, srsEPC, OpenSIPS.</li>
+            <li>Built telecom testbeds with real SIMs and RF modules — VoLTE and data service validation before every production push.</li>
+            <li>Docker containerization + formal SOP: <strong>Dev → Staging → UAT → Pre-Prod → Canary → Production</strong>.</li>
+            <li>CI pipelines + Seagull/JMeter/k6 suites enforcing <span class="num">99.999%</span> availability SLAs.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">C</span><span class="exp-tag">Go</span><span class="exp-tag">LibUV</span><span class="exp-tag">3GPP</span><span class="exp-tag">5G SA</span><span class="exp-tag">PCRF</span><span class="exp-tag">OCS</span><span class="exp-tag">NCHF</span><span class="exp-tag">Docker</span><span class="exp-tag">K8s</span><span class="exp-tag">TCMalloc</span><span class="exp-tag">RAS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-entry">
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">Senior Software Engineer &amp; Team Lead</div>
+            <div class="exp-period">Mar 2017 — Mar 2022</div>
+          </div>
+          <div class="exp-company">Safarifone Pvt. Ltd &nbsp;·&nbsp; <span>Islamabad, Pakistan</span></div>
+          <ul class="exp-bullets">
+            <li>Architected 3GPP-compliant Diameter OCS and RADIUS AAA from scratch in C on fully async LibUV platform.</li>
+            <li>Implemented <span class="num">800+</span> prepaid/postpaid charging scenarios for GSM Voice, Data, SMS, VAS, VoIP, and VoLTE.</li>
+            <li>Contributed to <span class="tl">USM (HSS/HLR/UDM)</span> — S6, CxDx; AAA for SIP auth, PAP/CHAP, Wi-Fi Offloading (SWx/Gy).</li>
+            <li>Kernel-level debugging with Valgrind, GDB, Cachegrind, VTune, Perf — resolved memory corruption and race conditions in production.</li>
+            <li>Led and mentored a team of <span class="num">3</span> engineers; sprint planning, code reviews, standups.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">C</span><span class="exp-tag">Diameter</span><span class="exp-tag">RADIUS</span><span class="exp-tag">AAA</span><span class="exp-tag">LibUV</span><span class="exp-tag">Oracle</span><span class="exp-tag">Redis</span><span class="exp-tag">Valgrind</span><span class="exp-tag">GDB</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-entry">
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">Software Engineer</div>
+            <div class="exp-period">Feb 2014 — Mar 2017</div>
+          </div>
+          <div class="exp-company">Safarifone Pvt. Ltd &nbsp;·&nbsp; <span>Islamabad, Pakistan</span></div>
+          <ul class="exp-bullets">
+            <li>Built high-performance <strong>Mobile Financial Services (MFS)</strong> core — money transfer engine in C, 3GPP Ro interface.</li>
+            <li>Implemented <span class="num">600+</span> transfer flows with 2FA/MFA for USSD and Web/Mobile channels.</li>
+            <li>Full SDLC from inception through production cutover for a <span class="num">3M</span>-customer operator handling <span class="num">10M+</span> transactions/day.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">C</span><span class="exp-tag">MFS</span><span class="exp-tag">3GPP Ro</span><span class="exp-tag">USSD</span><span class="exp-tag">2FA/MFA</span><span class="exp-tag">SDLC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-entry">
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">C/C++ &amp; MIPS Assembly Developer</div>
+            <div class="exp-period">Feb 2013 — Feb 2014</div>
+          </div>
+          <div class="exp-company">XFlow Research Center &nbsp;·&nbsp; <span>Islamabad, Pakistan</span></div>
+          <ul class="exp-bullets">
+            <li>Ported <strong>Valgrind</strong> DBI framework from x86 to Cavium MIPS-based Linux (Octeon SDK, N64 ABI).</li>
+            <li>Implemented Octeon-specific assembly instructions, system calls, TLS register support, and signal handling.</li>
+            <li>Contributions accepted upstream to <a href="https://valgrind.org" target="_blank" style="color:var(--blue);">valgrind.org</a>.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">C</span><span class="exp-tag">C++</span><span class="exp-tag">MIPS Assembly</span><span class="exp-tag">Valgrind</span><span class="exp-tag">Octeon SDK</span><span class="exp-tag">N64 ABI</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION & AWARDS -->
+  <section class="section reveal" id="education">
+    <div class="sec-label"><span class="sec-label-text">Education &amp; Awards</span><div class="sec-label-line"></div><span class="sec-label-num">04</span></div>
+    <h2>Credentials &amp; <span class="hl">recognition.</span></h2>
+    <div class="ea-grid">
+      <div class="ea-card">
+        <div class="ea-head">
+          <div class="ea-icon ib"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+          <div class="ea-title">Education</div>
+        </div>
+        <div class="edu-entry">
+          <div class="edu-deg">MS. Computer Science</div>
+          <div class="edu-inst">NUST, Islamabad, Pakistan</div>
+          <span class="edu-year">2014</span>
+        </div>
+        <div class="edu-entry">
+          <div class="edu-deg">BS. Information Technology</div>
+          <div class="edu-inst">IUB, Bahawalpur, Pakistan</div>
+          <span class="edu-year">2012</span>
+        </div>
+      </div>
+      <div class="ea-card">
+        <div class="ea-head">
+          <div class="ea-icon ig"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 3H7l-2 7h14l-2-7z"/><path d="M5 10c0 4 3 7 7 7s7-3 7-7"/></svg></div>
+          <div class="ea-title">Awards &amp; Recognition</div>
+        </div>
+        <div class="award-row">
+          <div class="aw-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="aw-name">Top Performer</div><div class="aw-year">2025</div>
+        </div>
+        <div class="award-row">
+          <div class="aw-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="aw-name">Employee of the Year</div><div class="aw-year">2024</div>
+        </div>
+        <div class="award-row">
+          <div class="aw-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="aw-name">Best Team Lead</div><div class="aw-year">2022</div>
+        </div>
+        <div class="award-row">
+          <div class="aw-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="aw-name">Employee of the Year</div><div class="aw-year">2019</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">0<span>overhead</span>.dev</div>
+    <div class="footer-copy">© 2025 Junaid Riaz · Islamabad, Pakistan</div>
+    <div class="footer-links">
+      <a href="mailto:junaidriaz449@yahoo.com">Email</a>
+      <a href="https://linkedin.com/in/junaidriaz" target="_blank">LinkedIn</a>
+      <a href="https://github.com/junaidriaz449" target="_blank">GitHub</a>
+      <a href="tel:+923357077449">Phone</a>
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+<script>
+// ── SCROLL PROGRESS ──
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = Math.min(pct, 100) + '%';
+}, { passive: true });
+
+// ── STICKY NAV ──
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+// ── ACTIVE NAV LINKS (IntersectionObserver) ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-center a[data-section]');
+const mobileLinks = document.querySelectorAll('.mobile-nav a');
+const sectionObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(a => a.classList.toggle('active', a.dataset.section === id));
+      mobileLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+    }
+  });
+}, { threshold: 0.35 });
+sections.forEach(s => sectionObs.observe(s));
+
+// ── HAMBURGER / MOBILE NAV ──
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobile-nav');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileNav.classList.toggle('open');
+});
+mobileNav.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileNav.classList.remove('open');
+  });
+});
+
+// ── AVAILABILITY TOGGLE ──
+const badge = document.getElementById('avail-badge');
+const avText = document.getElementById('avail-text');
+let available = true;
+badge.addEventListener('click', () => {
+  available = !available;
+  badge.classList.toggle('unavailable', !available);
+  avText.textContent = available ? 'Available for Opportunities' : 'Not Currently Available';
+});
+
+// ── COUNT-UP ──
+function animateCount(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  if (!target) return;
+  const dur = 1400;
+  const start = performance.now();
+  const tick = (now) => {
+    const p = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.floor(ease * target) + suffix;
+    if (p < 1) requestAnimationFrame(tick);
+    else el.textContent = target + suffix;
+  };
+  requestAnimationFrame(tick);
+}
+
+// ── TECH BARS ANIMATE ──
+function animateBars(container) {
+  container.querySelectorAll('.tt-bar[data-width]').forEach(b => {
+    b.style.width = b.dataset.width + '%';
+  });
+}
+
+// ── SCROLL REVEAL + TRIGGERS ──
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('visible');
+    e.target.querySelectorAll('[data-target]').forEach(animateCount);
+    if (e.target.querySelector('.tt-bar')) animateBars(e.target);
+    revealObs.unobserve(e.target);
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ── PAUSE MESH WHEN OFF SCREEN ──
+const meshBg = document.querySelector('.mesh-bg');
+const meshObs = new IntersectionObserver((entries) => {
+  meshBg.style.animationPlayState = entries[0].isIntersecting ? 'running' : 'paused';
+}, { threshold: 0 });
+meshObs.observe(document.body);
+</script>
 </body>
 </html>

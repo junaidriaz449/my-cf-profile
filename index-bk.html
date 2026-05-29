@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junaid Riaz | System Architect</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --text-color: #d4d4d4;
+            --keyword: #569cd6; /* Blue for keywords */
+            --string: #ce9178; /* Orange for strings */
+            --comment: #6a9955; /* Green for comments */
+            --function: #dcdcaa; /* Yellow for functions */
+            --class: #4ec9b0; /* Teal for types */
+            --number: #b5cea8; /* Light green for numbers */
+            --link: #9cdcfe; /* Light blue for links */
+            --border: #333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Terminal Header */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--function);
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        h1::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .subtitle {
+            color: var(--class);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .contact-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        a {
+            color: var(--link);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--link);
+        }
+
+        a:hover {
+            border-bottom: 1px solid var(--link);
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            color: var(--keyword);
+            font-size: 1.5rem;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2::before {
+            content: "./";
+            opacity: 0.5;
+            margin-right: 5px;
+        }
+
+        /* Code Block Styling for Resume Content */
+        .code-block {
+            background: #252526;
+            padding: 20px;
+            border-left: 3px solid var(--keyword);
+            border-radius: 0 5px 5px 0;
+            margin-bottom: 20px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .job-title {
+            color: var(--function);
+            font-weight: bold;
+        }
+
+        .job-company {
+            color: var(--string);
+        }
+
+        .job-date {
+            color: var(--comment);
+        }
+
+        ul {
+            list-style-type: none; /* Remove default bullets */
+            padding-left: 0;
+        }
+
+        li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--keyword);
+        }
+
+        /* Skills Tag Cloud */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category {
+            margin-bottom: 10px;
+        }
+
+        .skill-name {
+            color: var(--class);
+            font-weight: bold;
+        }
+
+        .comment-text {
+            color: var(--comment);
+            font-style: italic;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .job-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Junaid Riaz</h1>
+        <span class="subtitle">Senior System Software Engineer | Telecom Architect</span>
+        <div class="contact-info">
+            <span class="comment-text">// Contact Info</span><br>
+            <span style="color: var(--keyword);">const</span> location = <span style="color: var(--string);">"Islamabad, Pakistan"</span>;<br>
+            <span style="color: var(--keyword);">const</span> email = "<a href="mailto:junaidriaz449@yahoo.com">junaidriaz449@yahoo.com</a>";<br>
+            <span style="color: var(--keyword);">const</span> linkedin = "<a href="https://linkedin.com/in/junaidriaz" target="_blank">linkedin.com/in/junaidriaz</a>";
+        </div>
+    </header>
+
+    <section id="summary">
+        <h2>Summary</h2>
+        <div class="code-block">
+            <p>
+                <span class="comment-text">/**<br>
+                * High-Performance Systems Expert with 12 years of experience.<br>
+                * Specializing in C/Golang and low-level optimization.<br>
+                * Proven track record of reducing infrastructure costs (98% memory reduction).<br>
+                */</span>
+            </p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Tech_Stack</h2>
+        <div class="skills-grid">
+            <div>
+                <div class="skill-name">Languages</div>
+                <ul>
+                    <li>C (12+ Years)</li>
+                    <li>Golang (4+ Years)</li>
+                    <li>Bash / Python / C++</li>
+                </ul>
+            </div>
+            <div>
+                <div class="skill-name">Core_Telecom</div>
+                <ul>
+                    <li>3GPP (OCS, PCRF, HSS)</li>
+                    <li>Diameter / SIP / SIGTRAN</li>
+                    <li>Open5Gs / Free5GC</li>
+                </ul>
+            </div>
+            <div>
+                <div class="skill-name">Infrastructure</div>
+                <ul>
+                    <li>Docker / Kubernetes</li>
+                    <li>Redis / Oracle / MySQL</li>
+                    <li>Linux Kernel / LibUV</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Experience_Log</h2>
+
+        <div class="code-block">
+            <div class="job-header">
+                <span class="job-title">Software Architect & Principal Engineer</span>
+                <span class="job-company">Safarifone Pvt. Ltd</span>
+                <span class="job-date">// Mar 2022 - Present</span>
+            </div>
+            <ul>
+                <li>Led migration of monoliths to Dockerized Golang microservices serving <span style="color: var(--number);">5M+</span> subscribers[cite: 5].</li>
+                <li>Designed PCRF and VAS SDP using Golang, gRPC, and Goroutines[cite: 15, 16].</li>
+                <li>Developed NGP platform on top of LibUV, achieving <span style="color: var(--number);">4x</span> performance boost[cite: 20].</li>
+                <li>Architected Revenue Assurance System and managed OCS deployment for 6+ operators[cite: 22].</li>
+            </ul>
+        </div>
+
+        <div class="code-block">
+            <div class="job-header">
+                <span class="job-title">Product Manager (Telecom)</span>
+                <span class="job-company">Safarifone Pvt. Ltd</span>
+                <span class="job-date">// Mar 2022 - Present</span>
+            </div>
+            <ul>
+                <li>Bridge between Clients, Ops, and R&D; translating RFPs into technical specs[cite: 8].</li>
+                <li>Manage full SDLC for BSS/OSS products and cross-functional team alignment[cite: 9, 11].</li>
+                <li>Established formal release SOPs (Dev -> Staging -> Canary -> Prod)[cite: 14].</li>
+            </ul>
+        </div>
+
+        <div class="code-block">
+            <div class="job-header">
+                <span class="job-title">Sr. Software Engineer & Team Lead</span>
+                <span class="job-company">Safarifone Pvt. Ltd</span>
+                <span class="job-date">// Mar 2017 - Mar 2022</span>
+            </div>
+            <ul>
+                <li>Architected 3GPP OCS/AAA from scratch in C using async LibUV[cite: 28].</li>
+                <li><span style="color: var(--keyword);">Optimization:</span> Re-engineered Oracle connector to slash memory from <span style="color: var(--number);">22GB</span> to <span style="color: var(--number);">300MB</span>[cite: 3, 31].</li>
+                <li>Integrated Google TCMalloc reducing CPU usage by <span style="color: var(--number);">40%</span>[cite: 3, 32].</li>
+                <li>Mentored team of 3 engineers and managed sprint planning[cite: 35].</li>
+            </ul>
+        </div>
+
+        <div class="code-block">
+            <div class="job-header">
+                <span class="job-title">Software Engineer</span>
+                <span class="job-company">Safarifone Pvt. Ltd</span>
+                <span class="job-date">// Feb 2014 - Mar 2017</span>
+            </div>
+            <ul>
+                <li>Developed MFS (Mobile Financial Services) core handling <span style="color: var(--number);">10M+</span> daily transactions[cite: 41].</li>
+                <li>Implemented 600+ money transfer flows and robust authentication (2FA)[cite: 39].</li>
+            </ul>
+        </div>
+
+        <div class="code-block">
+            <div class="job-header">
+                <span class="job-title">C/C++ & MIPS Assembly Developer</span>
+                <span class="job-company">XFlow Research Center</span>
+                <span class="job-date">// Feb 2013 - Feb 2014</span>
+            </div>
+            <ul>
+                <li>Ported Valgrind (DBI framework) from x86 to Cavium MIPS-based Linux (Octeon SDK)[cite: 43].</li>
+                <li>Implemented assembly instructions and syscalls for N64 ABI[cite: 44].</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2>Education_&_Awards</h2>
+        <ul>
+            <li><span style="color: var(--function);">MS Computer Science</span> @ NUST, Islamabad [cite: 7]</li>
+            <li><span style="color: var(--function);">MS Information Technology</span> @ IUB, Bahawalpur [cite: 7]</li>
+            <li style="margin-top: 15px;">🏆 <strong>Top Performer Award</strong> (2025) [cite: 6]</li>
+            <li>🏆 <strong>Employee of the Year</strong> (2019, 2024) [cite: 6]</li>
+        </ul>
+    </section>
+
+    <footer style="text-align: center; margin-top: 50px; font-size: 0.8rem; color: #666;">
+        <p>git push --force origin master</p>
+    </footer>
+</div>
+
+</body>
+</html>
